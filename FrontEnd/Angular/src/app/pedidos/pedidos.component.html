@@ -1,0 +1,83 @@
+<div class="row">
+
+    <div class="col-sm-6" *ngIf="pedidoSelecionado">
+        <div class="row">
+            <div class="mr-auto">
+                <app-titulo [titulo]="'Cód. Pedido: ' + pedidoSelecionado.id" ></app-titulo>
+            </div>
+            <div class="mt-2">
+                <button class="btn btn-sm btn-warning" (click)="voltar()">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    
+        <form [formGroup]="pedidoForm" (submit)="pedidoSubmit()">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Nome</label>
+                <input type="text" class="form-control" formControlName="cliente">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Data</label>
+                <input type="text" class="form-control" formControlName="data">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Valor</label>
+                <input type="text" class="form-control" formControlName="valor">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Desconto</label>
+                <input type="text" class="form-control" formControlName="desconto">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Valor Final</label>
+                <input type="text" class="form-control" [disabled]="true" formControlName="valorFinal">
+            </div>
+        </form> 
+        
+    </div>
+    
+    <div [ngClass]="{'col-sm-6': pedidoSelecionado, 'col-sm-12': !pedidoSelecionado}">
+        <app-titulo [titulo]="titulo" ></app-titulo>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Visualizar</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Data</th>
+                <th scope="col">Opções</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pedido of pedidos" style="cursor: pointer">
+                <th scope="row">{{pedido.id}}</th>
+                <td>
+                    <button (click)="pedidoSelect(pedido)" class="btn btn-sm btn-outline-warning">Exibir</button>
+                </td>
+                <td>{{pedido.cliente}}</td>
+                <td>{{pedido.data}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button (click)="openModal(template)" class="btn btn-sm btn-outline-primary">Produtos</button>
+                        <button class="btn btn-sm btn-outline-danger">Cancelar</button>
+                    </div>
+                </td>
+              </tr>
+        </table>
+    </div>
+</div>
+ 
+<ng-template #template>
+    <div class="modal-body">
+    <app-produtos></app-produtos>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="close pull-right" aria-label="Close" 
+            (click)="modalRef.hide()">
+            FECHAR
+        </button>
+    </div>
+</ng-template>
+
+

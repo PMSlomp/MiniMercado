@@ -1,0 +1,61 @@
+<div class="row">
+
+<!--    <div>
+        <input type="text" [(ngModel)]="textoTemp">
+        <p>{{textoTemp}}</p>
+    </div>
+-->
+
+    <div class="col-sm-6" *ngIf="clienteSelecionado">
+        <div class="row">
+            <div class="mr-auto">
+                <app-titulo [titulo]="'Cód. Cliente: ' + clienteSelecionado.id" ></app-titulo>
+            </div>
+            <div class="mt-2">
+                <button class="btn btn-sm btn-warning" (click)="voltar()">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    
+        <form [formGroup]="clienteForm" (submit)="clienteSubmit()">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Nome</label>
+                <input type="text" class="form-control" formControlName="nome">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">E-mail</label>
+                <input type="text" class="form-control" formControlName="mail">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-success" [disabled]="!clienteForm.valid">Salvar</button>
+            </div>
+        </form> 
+        
+    </div>
+    <div [ngClass]="{'col-sm-6': clienteSelecionado, 'col-sm-12': !clienteSelecionado}">
+        <app-titulo [titulo]="titulo" ></app-titulo>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Opções</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cliente of clientes" style="cursor: pointer;">
+                <th scope="row">{{cliente.id}}</th>
+                <td>{{cliente.nome}}</td>
+                <td>{{cliente.mail}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button (click)="clienteSelect(cliente)" class="btn btn-sm btn-outline-primary">Editar</button>
+                        <button class="btn btn-sm btn-outline-danger">Desativar</button>
+                    </div>
+                </td>
+              </tr>
+        </table>
+    </div>
+</div>
