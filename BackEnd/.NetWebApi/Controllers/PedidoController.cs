@@ -76,7 +76,7 @@ namespace _NetWebApi.Controllers
             return BadRequest("Não esperado");
         }
 
-        [HttpDelete("{pedidoId}")]
+        [HttpDelete("{pedidoId}")]  
         public async Task<IActionResult> delete(int pedidoId) {
 
             try {
