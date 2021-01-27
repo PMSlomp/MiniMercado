@@ -1,5 +1,11 @@
 export class Cliente {
-    id: number;
-    nome: string;
-    mail: string;
+    constructor() {
+        this.id = 0;
+        this.nome = '';
+        this.mail = '';
+    }
+
+    id!: number;
+    nome!: string;
+    mail!: string;
 }

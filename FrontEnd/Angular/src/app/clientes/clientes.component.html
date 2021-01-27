@@ -7,16 +7,11 @@
 -->
 
     <div class="col-sm-6" *ngIf="clienteSelecionado">
-        <div class="row">
-            <div class="mr-auto">
-                <app-titulo [titulo]="'Cód. Cliente: ' + clienteSelecionado.id" ></app-titulo>
-            </div>
-            <div class="mt-2">
-                <button class="btn btn-sm btn-warning" (click)="voltar()">
-                    Fechar
-                </button>
-            </div>
-        </div>
+        <app-titulo [titulo]="clienteSelecionado.id == 0 ? 'Novo Cliente' : 'Cód. Cliente: ' + clienteSelecionado.id" >
+            <button class="btn btn-sm btn-warning" (click)="voltar()">
+                Fechar
+            </button>
+        </app-titulo>
     
         <form [formGroup]="clienteForm" (submit)="clienteSubmit()">
             <div class="mb-3">
@@ -34,7 +29,11 @@
         
     </div>
     <div [ngClass]="{'col-sm-6': clienteSelecionado, 'col-sm-12': !clienteSelecionado}">
-        <app-titulo [titulo]="titulo" ></app-titulo>
+        <app-titulo [titulo]="titulo" >
+            <button class="btn btn-success" (click)="clienteCadastro()">
+                Cadastrar
+            </button>
+        </app-titulo>
         <table class="table table-hover">
             <thead>
               <tr>
@@ -52,7 +51,7 @@
                 <td>
                     <div class="btn-group">
                         <button (click)="clienteSelect(cliente)" class="btn btn-sm btn-outline-primary">Editar</button>
-                        <button class="btn btn-sm btn-outline-danger">Desativar</button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="deletar(cliente.id)">Deletar</button>
                     </div>
                 </td>
               </tr>

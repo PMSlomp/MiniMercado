@@ -1,8 +1,8 @@
 export class Pedido {
-    id: number;
-    cliente: string;
-    data: string;
-    valor: number;
-    desconto: number;
-    valorFinal: number;
+    id!: number;
+    clienteId!: number;
+    data!: string;
+    valor!: number;
+    desconto!: number;
+    valorFinal!: number;
 }
