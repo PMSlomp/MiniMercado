@@ -1,0 +1,67 @@
+<div class="form-inline mt-2" >
+  <div class="form-group mb-2">
+    <!--<input type="date" class="form-control mr-2" [(ngModel)]="filtro">-->
+    <button class="btn btn-outline-success">Buscar</button>
+  </div>
+</div>
+<!--<h3>Filtro: {{filtro}}</h3>-->
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>#</th>
+      <th>Data</th>
+      <th>Cliente</th>
+      <th>Preço</th>
+      <th>Desconto</th>
+      <th>Preço Final</th>
+      <th>Produtos</th>
+      <th>Opções</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="pedidos && pedidos.length">
+    <!--<tr *ngFor="let pedido of pedidosfiltrados">-->
+    <tr *ngFor="let pedido of pedidos">
+      <td>{{pedido.id}}</td>
+      <td>{{pedido.data | DateTimeFormat}}</td> 
+      <td>{{pedido.cliente}}</td>
+      <td>{{pedido.preco | currency:'BRL':true:'1.2-2'}}</td>
+      <td>{{pedido.desconto | currency:'BRL':true:'1.2-2'}}</td>
+      <td>{{pedido.preco - pedido.desconto | currency:'BRL':true:'1.2-2'}}</td>
+      <td>
+        <button class="btn btn-sm  btn-outline-primary">
+          <i class="fa fa-eye" tooltip="Visualizar Produtos" (click)="openModal(template)"></i>
+        </button>
+      </td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-sm btn-warning" tooltip="Editar" (click)="openModal(template)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="openModal(template)">
+            <i class="fa fa-eraser"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!pedidos.length">
+    <td colspan="7" class="text-center">
+        <h4>
+          Nenhum pedido encontrado
+        </h4>
+    </td>
+  </tfoot>
+</table>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" 
+    aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  This is a modal.
+</div>
+</ng-template>

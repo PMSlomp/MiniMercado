@@ -1,0 +1,35 @@
+<div class="form-inline mt-2" >
+  <div class="form-group mb-2">
+    <!--<input type="date" class="form-control mr-2" [(ngModel)]="filtro">-->
+    <button class="btn btn-outline-success">Buscar</button>
+  </div>
+</div>
+<!--<h3>Filtro: {{filtro}}</h3>-->
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>#</th>
+      <th>Nome</th>
+      <th>E-mail</th>
+      <th>Informações</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="clientes && clientes.length">
+    <!--<tr *ngFor="let pedido of pedidosfiltrados">-->
+    <tr *ngFor="let cliente of clientes">
+      <td>{{cliente.id}}</td>
+      <td>{{cliente.nome}}</td> 
+      <td>{{cliente.email}}</td>
+      <td>
+        <button class="btn btn-outline-success">Produtos</button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!clientes.length">
+    <td colspan="7" class="text-center">
+        <h4>
+          Nenhum Cliente encontrado
+        </h4>
+    </td>
+  </tfoot>
+</table>

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BackEnd.AspNetApi.Model;
-using BackEnd.AspNetApi.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using MiniMercado.Repositorio;
 
 namespace AspNetApi.Controllers
 {
@@ -16,9 +15,9 @@ namespace AspNetApi.Controllers
     public class WeatherForecastController : ControllerBase
     {
         
-        public readonly DataContext _context;
+        public readonly MiniMercadoContext _context;
 
-        public WeatherForecastController(DataContext context) 
+        public WeatherForecastController(MiniMercadoContext context) 
         {
             _context = context;
         }
