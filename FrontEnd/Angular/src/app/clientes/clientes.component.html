@@ -1,9 +1,15 @@
-<div class="form-inline mt-2" >
-  <div class="form-group mb-2">
-    <!--<input type="date" class="form-control mr-2" [(ngModel)]="filtro">-->
-    <button class="btn btn-outline-success">Buscar</button>
+<div class="d-flex">
+  <div class="form-inline mt-2 mr-auto" >
+    <div class="form-group mb-2">
+      <!--<input type="date" class="form-control mr-2" [(ngModel)]="filtro">-->
+      <button class="btn btn-outline-success">Buscar</button>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-outline-primary mt-2" (click)="novo(template)">Cadastrar Cliente</button>
   </div>
 </div>
+
 <!--<h3>Filtro: {{filtro}}</h3>-->
 <table class="table table-striped">
   <thead class="thead-dark">
@@ -11,7 +17,8 @@
       <th>#</th>
       <th>Nome</th>
       <th>E-mail</th>
-      <th>Informações</th>
+      <th>Pedidos</th>
+      <th>Opções</th>
     </tr>
   </thead>
   <tbody *ngIf="clientes && clientes.length">
@@ -21,7 +28,19 @@
       <td>{{cliente.nome}}</td> 
       <td>{{cliente.email}}</td>
       <td>
-        <button class="btn btn-outline-success">Produtos</button>
+        <button class="btn btn-sm  btn-outline-primary">
+          <i class="fa fa-eye" tooltip="Visualizar Produtos" (click)="openModal(template)"></i>
+        </button>
+      </td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-sm btn-warning" tooltip="Editar" (click)="editar(cliente, template)">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="excluir(cliente, confirm)">
+            <i class="fa fa-eraser"></i>
+          </button>
+        </div>
       </td>
     </tr>
   </tbody>
@@ -33,3 +52,75 @@
     </td>
   </tfoot>
 </table>
+
+
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Novo Cliente</h4>
+        <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-7">
+              <label>Nome</label>
+              <input type="text" formControlName="nome" class="form-control"
+              [ngClass]="{'is-invalid': f.nome.errors && f.nome.touched}">
+              <div *ngIf="f.nome.errors && f.nome.touched" class="text-danger">
+                Preencha a nome. Mínimo de 4 caracteres.
+              </div>
+            </div>
+            <div class="form-group col-md-5">
+              <label>E-mail</label>
+              <input type="text" formControlName="email" class="form-control"
+                [ngClass]="{'is-invalid': f.email.errors && f.email.touched}">
+              <div *ngIf="f.email.errors && f.email.touched" class="text-danger">
+                Preencha um e-mail válido.
+              </div>
+            </div>
+          </div>  
+        </form>
+        <div class="modal-footer d-flex">
+          <button class="btn btn-secondary" (click)="template.hide()">
+            Fechar
+          </button>
+          <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="salvarAlteracao(template)">
+            Salvar Alterações
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+	<div class="modal-dialog modal-sm">
+  		<div class="modal-content">
+    		<div class="modal-header">
+      			<h4 class="modal-title pull-left">
+        			Deletando Cliente
+      			</h4>
+      			<button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+        			<span aria-hidden="true">&times;</span>
+      			</button>
+    		</div>
+    		<div class="modal-body">
+      			<p>{{bodyDeletarCliente}}</p>
+    		</div>    
+    		<div class="modal-footer btn-group d-flex">      
+      			<button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
+        			CANCELAR
+      			</button>
+      			<button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
+          		DELETAR
+        		</button>
+    		</div>
+  		</div>
+	</div>
+</div>

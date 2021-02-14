@@ -23,4 +23,12 @@ export class PedidoService {
   getPedidoCliente(cliente: string): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${this.baseUrl}/getbyCliente/${cliente}`);
   }
+
+  postPedido(pedido: Pedido) {
+    return this.http.post(`${this.baseUrl}`, pedido);
+  }
+
+  deletePedido(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
 }

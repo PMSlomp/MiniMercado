@@ -1,7 +1,13 @@
-<div class="form-inline mt-2" >
-  <div class="form-group mb-2">
-    <!--<input type="date" class="form-control mr-2" [(ngModel)]="filtro">-->
-    <button class="btn btn-outline-success">Buscar</button>
+<div class="d-flex">
+  <div class="form-inline mt-2 mr-auto" >
+    <div class="form-group mb-2">
+      <!--<input type="date" class="form-control mr-2" [(ngModel)]="filtro">-->
+      <button class="btn btn-outline-success">Buscar</button>
+    </div>
+  </div>
+
+  <div>
+    <button class="btn btn-outline-primary mt-2" (click)="openModal(template)">Novo Pedido</button>
   </div>
 </div>
 <!--<h3>Filtro: {{filtro}}</h3>-->
@@ -23,7 +29,7 @@
     <tr *ngFor="let pedido of pedidos">
       <td>{{pedido.id}}</td>
       <td>{{pedido.data | DateTimeFormat}}</td> 
-      <td>{{pedido.cliente}}</td>
+      <td>{{pedido.clienteId}}</td>
       <td>{{pedido.preco | currency:'BRL':true:'1.2-2'}}</td>
       <td>{{pedido.desconto | currency:'BRL':true:'1.2-2'}}</td>
       <td>{{pedido.preco - pedido.desconto | currency:'BRL':true:'1.2-2'}}</td>
@@ -37,7 +43,7 @@
           <button class="btn btn-sm btn-warning" tooltip="Editar" (click)="openModal(template)">
             <i class="fa fa-edit"></i>
           </button>
-          <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="openModal(template)">
+          <button class="btn btn-sm btn-danger" tooltip="Excluir" (click)="excluir(pedido, confirm)">
             <i class="fa fa-eraser"></i>
           </button>
         </div>
@@ -53,15 +59,92 @@
   </tfoot>
 </table>
 
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
-    <button type="button" class="close pull-right" 
-    aria-label="Close" (click)="modalRef.hide()">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Novo Pedido</h4>
+        <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label>Data</label>
+              <input type="text" formControlName="data" class="form-control"
+              [ngClass]="{'is-invalid': f.data.errors && f.data.touched}" bsDatepicker>
+              <div *ngIf="f.data.errors && f.data.touched" class="text-danger">
+                Preencha a data do pedido
+              </div>
+            </div>
+            <div class="form-group col-md-8">
+              <label>Cliente</label>
+              <input type="text" formControlName="clienteId" class="form-control"
+               [ngClass]="{'is-invalid': f.clienteId.errors && f.clienteId.touched}">
+              <div *ngIf="f.clienteId.errors && f.clienteId.touched" class="text-danger">
+                Selecione o cliente
+              </div>
+            </div>
+          </div>  
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label>Preço</label>
+              <input type="text" class="form-control" disabled>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Desconto</label>
+              <input type="text" formControlName="desconto" class="form-control"
+              [ngClass]="{'is-invalid': f.desconto.errors && f.desconto.touched}">
+              <div *ngIf="f.desconto.errors && f.desconto.touched" class="text-danger">
+                Preencha o desconto
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label>Preço final</label>
+              <input type="text" class="form-control" disabled>
+            </div>
+          </div> 
+        </form>
+        <div class="modal-footer d-flex">
+          <button class="btn btn-secondary" (click)="template.hide()">
+            Fechar
+          </button>
+          <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="salvarAlteracao(template)">
+            Salvar Alterações
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="modal-body">
-  This is a modal.
+
+
+<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+	<div class="modal-dialog modal-sm">
+  		<div class="modal-content">
+    		<div class="modal-header">
+      			<h4 class="modal-title pull-left">
+        			Deletando Pedido
+      			</h4>
+      			<button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+        			<span aria-hidden="true">&times;</span>
+      			</button>
+    		</div>
+    		<div class="modal-body">
+      			<p>{{bodyDeletarPedido}}</p>
+    		</div>    
+    		<div class="modal-footer btn-group d-flex">      
+      			<button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
+        			CANCELAR
+      			</button>
+      			<button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
+          		DELETAR
+        		</button>
+    		</div>
+  		</div>
+	</div>
 </div>
-</ng-template>

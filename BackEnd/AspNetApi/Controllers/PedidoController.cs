@@ -88,7 +88,7 @@ namespace BackEnd.AspNetApi.Controllers
         }
 
         //PUT
-        [HttpPut]
+        [HttpPut("{PedidoId}")]
         public async Task<ActionResult> Put(int pedidoId, Pedido model)
         {   
             try 
@@ -113,7 +113,7 @@ namespace BackEnd.AspNetApi.Controllers
             
         }
 
-        [HttpDelete]
+        [HttpDelete("{PedidoId}")]
         public async Task<ActionResult> Delete(int pedidoId)
         {   
             try 

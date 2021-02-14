@@ -5,7 +5,6 @@ export interface Pedido {
     id: number;
     data: Date;
     clienteId: number;
-    cliente: Cliente;
     preco: number;
     desconto: number;
     pedidoProdutos: Produto[];

@@ -88,14 +88,14 @@ namespace BackEnd.AspNetApi.Controllers
         }
 
         //PUT
-        [HttpPut]
+        [HttpPut("{ClienteId}")]
         public async Task<ActionResult> Put(int clienteId, Cliente model)
         {   
             try 
             {   
                 var cliente = await _repo.GetClienteAsyncById(clienteId, false);
                 if(cliente == null) return NotFound();
-
+                
                 _repo.Update(model);
                 
                 if(await _repo.SaveChangesAsync()) {
@@ -113,7 +113,7 @@ namespace BackEnd.AspNetApi.Controllers
             
         }
 
-        [HttpDelete]
+        [HttpDelete("{ClienteId}")]
         public async Task<ActionResult> Delete(int clienteId)
         {   
             try 

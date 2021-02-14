@@ -20,4 +20,16 @@ export class ClienteService {
     return this.http.get<Cliente>(`${this.baseUrl}/${id}`);
   }
 
+  postCliente(cliente: Cliente) {
+    return this.http.post(`${this.baseUrl}`, cliente);
+  }
+
+  putCliente(cliente: Cliente) {
+    return this.http.put(`${this.baseUrl}/${cliente.id}`, cliente);
+  }
+
+  deleteCliente(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
+
 }
